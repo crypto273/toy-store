@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Pumpkin & Pine Toys</title>
+<style>
+:root{--bg:#fff8ee;--surface:#ffffff;--text:#2b2340;--muted:#6b6480;--brand:#ff5d73;--brand2:#ffc93c;--brand3:#3dc5b5;--line:#eadfce;--on-brand:#ffffff;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#1a1626;--surface:#262037;--text:#f6f1ff;--muted:#b4abc9;--line:#3a3250;--brand:#ff7a8c}}
+:root[data-theme="dark"]{--bg:#1a1626;--surface:#262037;--text:#f6f1ff;--muted:#b4abc9;--line:#3a3250;--brand:#ff7a8c}
+html{scroll-padding-top:env(safe-area-inset-top,0px);scroll-behavior:smooth}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-family:"Baloo 2","Trebuchet MS",system-ui,sans-serif;line-height:1.5}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--surface);z-index:10}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:9;background:var(--surface);border-bottom:2px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:12px 5vw}
+.logo{font-weight:800;font-size:1.4rem;color:var(--brand);text-decoration:none}
+nav a{color:var(--text);text-decoration:none;margin-right:18px;font-weight:600}
+button{font:inherit;cursor:pointer}
+.cartbtn{background:var(--brand2);color:#2b2340;border:0;border-radius:999px;padding:8px 16px;font-weight:700}
+.hero{display:grid;grid-template-columns:1.1fr .9fr;gap:24px;align-items:center;padding:56px 5vw;max-width:1100px;margin:auto}
+.hero h1{font-size:clamp(2rem,5vw,3.4rem);line-height:1.1;margin:0 0 12px}
+.hero p{color:var(--muted);font-size:1.1rem;margin:0 0 20px}
+.cta{background:var(--brand);color:var(--on-brand);border:0;border-radius:14px;padding:12px 24px;font-weight:700;font-size:1.05rem;text-decoration:none;display:inline-block}
+.art{font-size:clamp(5rem,16vw,9rem);text-align:center;background:var(--brand3);border-radius:40px;padding:20px;transform:rotate(3deg)}
+.perks{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;padding:0 5vw 32px;max-width:1100px;margin:auto}
+.perks span{background:var(--surface);border:2px solid var(--line);border-radius:999px;padding:6px 16px;font-weight:600}
+section{max-width:1100px;margin:auto;padding:24px 5vw}
+h2{font-size:1.8rem;margin:0 0 16px}
+.filters{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px}
+.filters button{background:var(--surface);color:var(--text);border:2px solid var(--line);border-radius:999px;padding:6px 16px;font-weight:600}
+.filters button.on{background:var(--brand);color:var(--on-brand);border-color:var(--brand)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:18px}
+.card{background:var(--surface);border:2px solid var(--line);border-radius:22px;padding:16px;display:flex;flex-direction:column}
+.card .pic{font-size:4rem;text-align:center;border-radius:16px;padding:14px;margin-bottom:10px}
+.card h3{margin:0;font-size:1.1rem}
+.card small{color:var(--muted)}
+.row{display:flex;justify-content:space-between;align-items:center;margin-top:auto;padding-top:12px}
+.price{font-weight:800;font-size:1.1rem}
+.add{background:var(--brand3);color:#12322e;border:0;border-radius:12px;padding:6px 14px;font-weight:700}
+.about{background:var(--surface);border:2px solid var(--line);border-radius:24px;text-align:center;padding:32px 5vw}
+.about p{color:var(--muted);max-width:620px;margin:0 auto 16px}
+.news{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+.news input{padding:10px 14px;border-radius:12px;border:2px solid var(--line);background:var(--bg);color:var(--text);font:inherit;min-width:220px}
+footer{text-align:center;color:var(--muted);padding:32px 5vw}
+#drawer{position:fixed;top:0;right:0;bottom:0;width:min(380px,100%);background:var(--surface);border-left:2px solid var(--line);z-index:20;transform:translateX(100%);transition:transform .25s;padding:calc(18px + env(safe-area-inset-top,0px)) 18px calc(18px + env(safe-area-inset-bottom,0px));display:flex;flex-direction:column}
+#drawer.open{transform:none}
+#items{flex:1;overflow:auto}
+.item{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:10px 0;border-bottom:1px solid var(--line)}
+.qty button{width:26px;height:26px;border-radius:8px;border:2px solid var(--line);background:var(--bg);color:var(--text)}
+.total{display:flex;justify-content:space-between;font-weight:800;font-size:1.2rem;padding:12px 0}
+@media(max-width:720px){.hero{grid-template-columns:1fr;padding-top:32px}nav{display:none}}
+</style>
+</head>
+<body>
+<header>
+  <a class="logo" href="#top">🎈 Pumpkin &amp; Pine Toys</a>
+  <nav><a href="#shop">Shop</a><a href="#about">About</a></nav>
+  <button class="cartbtn" id="open">🛒 Cart (<span id="count">0</span>)</button>
+</header>
+
+<main id="top">
+  <div class="hero">
+    <div>
+      <h1>Toys that spark big imaginations</h1>
+      <p>Thoughtfully chosen toys, games and puzzles for curious kids of every age.</p>
+      <a class="cta" href="#shop">Shop toys</a>
+    </div>
+    <div class="art" aria-hidden="true">🧸</div>
+  </div>
+  <div class="perks"><span>🚚 Free delivery over KES 5,000</span><span>🎁 Free gift wrapping</span><span>✅ Safety-tested toys</span></div>
+
+  <section id="shop">
+    <h2>Shop our favourites</h2>
+    <div class="filters" id="filters"></div>
+    <div class="grid" id="grid"></div>
+  </section>
+
+  <section id="about">
+    <div class="about">
+      <h2>Play is serious business</h2>
+      <p>We’re a family-run toy shop that picks every item by hand. If a toy isn’t fun, safe and built to last, it doesn’t make our shelves.</p>
+      <div class="news"><input id="email" type="email" placeholder="Your email for toy news" aria-label="Email"><button class="cta" id="join">Join the club</button></div>
+      <p id="msg" style="margin-top:12px"></p>
+    </div>
+  </section>
+</main>
+<footer>© 2026 Pumpkin &amp; Pine Toys · Open daily 9am–7pm</footer>
+
+<aside id="drawer" aria-label="Shopping cart">
+  <div style="display:flex;justify-content:space-between;align-items:center"><h2 style="margin:0">Your cart</h2><button id="close" class="add" style="background:var(--line);color:var(--text)">Close</button></div>
+  <div id="items"></div>
+  <div class="total"><span>Total</span><span id="total">KES 0</span></div>
+  <button class="cta" id="checkout" style="width:100%">Checkout</button>
+</aside>
+
+<script>
+const products=[
+{id:1,n:"Plush Teddy Bear",e:"🧸",c:"Soft toys",p:1800,a:"0+",bg:"#ffd9de"},
+{id:2,n:"Wooden Train Set",e:"🚂",c:"Building",p:3500,a:"3+",bg:"#d4f3ee"},
+{id:3,n:"Rainbow Stacking Rings",e:"🌈",c:"Baby",p:1200,a:"1+",bg:"#fff1c2"},
+{id:4,n:"Remote Control Car",e:"🏎️",c:"Outdoor",p:4200,a:"6+",bg:"#ffd9de"},
+{id:5,n:"1000-Piece Puzzle",e:"🧩",c:"Games",p:2400,a:"8+",bg:"#d4f3ee"},
+{id:6,n:"Space Rocket Blocks",e:"🚀",c:"Building",p:3900,a:"5+",bg:"#fff1c2"},
+{id:7,n:"Dinosaur Explorer Kit",e:"🦖",c:"Outdoor",p:2800,a:"4+",bg:"#d4f3ee"},
+{id:8,n:"Family Board Game",e:"🎲",c:"Games",p:3100,a:"7+",bg:"#ffd9de"},
+{id:9,n:"Cuddly Bunny",e:"🐰",c:"Soft toys",p:1500,a:"0+",bg:"#fff1c2"},
+{id:10,n:"Musical Xylophone",e:"🎵",c:"Baby",p:2000,a:"2+",bg:"#d4f3ee"}];
+const cart={};let cat="All";
+const fmt=n=>"KES "+n.toLocaleString("en-KE");
+const $=id=>document.getElementById(id);
+function renderFilters(){
+  const cats=["All",...new Set(products.map(p=>p.c))];
+  $("filters").innerHTML=cats.map(c=>`<button class="${c===cat?"on":""}" data-c="${c}">${c}</button>`).join("");
+  $("filters").querySelectorAll("button").forEach(b=>b.onclick=()=>{cat=b.dataset.c;renderFilters();renderGrid()});
+}
+function renderGrid(){
+  $("grid").innerHTML=products.filter(p=>cat==="All"||p.c===cat).map(p=>`
+  <div class="card"><div class="pic" style="background:${p.bg}">${p.e}</div>
+  <h3>${p.n}</h3><small>${p.c} · Ages ${p.a}</small>
+  <div class="row"><span class="price">${fmt(p.p)}</span><button class="add" data-id="${p.id}">Add</button></div></div>`).join("");
+  $("grid").querySelectorAll(".add").forEach(b=>b.onclick=()=>{cart[b.dataset.id]=(cart[b.dataset.id]||0)+1;renderCart();$("drawer").classList.add("open")});
+}
+function renderCart(){
+  const ids=Object.keys(cart);let total=0,count=0;
+  $("items").innerHTML=ids.length?ids.map(id=>{const p=products.find(x=>x.id==id),q=cart[id];total+=p.p*q;count+=q;
+   return `<div class="item"><span>${p.e} ${p.n}<br><small>${fmt(p.p)}</small></span><span class="qty"><button data-d="-1" data-id="${id}">−</button> ${q} <button data-d="1" data-id="${id}">+</button></span></div>`}).join(""):"<p>Your cart is empty.</p>";
+  $("items").querySelectorAll("button").forEach(b=>b.onclick=()=>{const id=b.dataset.id;cart[id]+=+b.dataset.d;if(cart[id]<=0)delete cart[id];renderCart()});
+  $("count").textContent=count;$("total").textContent=fmt(total);
+}
+$("open").onclick=()=>$("drawer").classList.add("open");
+$("close").onclick=()=>$("drawer").classList.remove("open");
+$("checkout").onclick=()=>{if(!Object.keys(cart).length){return}alert("Thanks for shopping with us! This is a demo, so no payment was taken.");for(const k in cart)delete cart[k];renderCart();$("drawer").classList.remove("open")};
+$("join").onclick=()=>{const v=$("email").value.trim();$("msg").textContent=/\S+@\S+\.\S+/.test(v)?"Thanks for joining! 🎉":"Please enter a valid email."};
+renderFilters();renderGrid();renderCart();
+</script>
+</body>
+</html>
